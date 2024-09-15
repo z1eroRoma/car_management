@@ -1,0 +1,98 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Информация об автомобиле</title>-->
+<!--    <link rel="stylesheet" href="/static/car_detail_styles.css">-->
+<!--</head>-->
+<!--<body>-->
+<!--    <header>-->
+<!--        <nav>-->
+<!--            <ul>-->
+<!--                <li><a href="{% url 'car_list' %}">Главная</a></li>-->
+<!--                <li><a href="{% url 'add_car' %}">Добавить автомобиль</a></li>-->
+<!--                <li><a href="{% url 'login' %}">Войти</a></li>-->
+<!--            </ul>-->
+<!--        </nav>-->
+<!--    </header>-->
+<!--    <main>-->
+<!--        <h1>Информация об автомобиле</h1>-->
+<!--        <div class="car-info">-->
+<!--            <h2>{{ car.make }} {{ car.model }} ({{ car.year }})</h2>-->
+<!--            <p>{{ car.description }}</p>-->
+<!--            <p>Владелец: {{ car.owner.username }}</p>-->
+<!--        </div>-->
+<!--        <h2>Комментарии</h2>-->
+<!--        <ul id="comment-list">-->
+<!--            {% for comment in comments %}-->
+<!--                <li>-->
+<!--                    <p>{{ comment.content }} ({{ comment.author.username }})</p>-->
+<!--                    <p>Дата: {{ comment.created_at }}</p>-->
+<!--                </li>-->
+<!--            {% endfor %}-->
+<!--        </ul>-->
+<!--        <form action="{% url 'add_comment' car.pk %}" method="post">-->
+<!--            {% csrf_token %}-->
+<!--            <textarea name="content" placeholder="Введите комментарий"></textarea>-->
+<!--            <button type="submit">Добавить комментарий</button>-->
+<!--        </form>-->
+<!--    </main>-->
+<!--    <footer>-->
+<!--        <p>&copy; 2024 Автомобили</p>-->
+<!--    </footer>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информация об автомобиле</title>
+    <link rel="stylesheet" href="/static/car_detail_styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'car_list' %}">Главная</a></li>
+                <li><a href="{% url 'add_car' %}">Добавить автомобиль</a></li>
+                <li><a href="{% url 'login' %}">Войти</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Информация об автомобиле</h1>
+        <div class="car-info">
+            <h2>{{ car.make }} {{ car.model }} ({{ car.year }})</h2>
+            <p>{{ car.description }}</p>
+            <p>Владелец: {{ car.owner.username }}</p>
+            {% if request.user == car.owner %}
+                <a href="{% url 'edit_car' car.pk %}" class="btn btn-primary">Редактировать</a>
+                <form action="{% url 'delete_car' car.pk %}" method="post" style="display: inline-block;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </form>
+            {% endif %}
+        </div>
+        <h2>Комментарии</h2>
+        <ul id="comment-list">
+            {% for comment in comments %}
+                <li>
+                    <p>{{ comment.content }} ({{ comment.author.username }})</p>
+                    <p>Дата: {{ comment.created_at }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+        <form action="{% url 'add_comment' car.pk %}" method="post">
+            {% csrf_token %}
+            <textarea name="content" placeholder="Введите комментарий"></textarea>
+            <button type="submit">Добавить комментарий</button>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2024 Автомобили</p>
+    </footer>
+</body>
+</html>

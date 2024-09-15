@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактировать автомобиль</title>
+    <link rel="stylesheet" href="/static/edit_car_styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'car_list' %}">Главная</a></li>
+                <li><a href="{% url 'add_car' %}">Добавить автомобиль</a></li>
+                <li><a href="{% url 'login' %}">Войти</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Редактировать автомобиль</h1>
+        <form action="{% url 'edit_car' car.pk %}" method="post">
+            {% csrf_token %}
+            <label for="make">Марка:</label>
+            <input type="text" id="make" name="make" value="{{ car.make }}"><br><br>
+            <label for="model">Модель:</label>
+            <input type="text" id="model" name="model" value="{{ car.model }}"><br><br>
+            <label for="year">Год:</label>
+            <input type="number" id="year" name="year" value="{{ car.year }}"><br><br>
+            <label for="description">Описание:</label>
+            <textarea id="description" name="description">{{ car.description }}</textarea><br><br>
+            <button type="submit">Сохранить изменения</button>
+            <a href="{% url 'delete_car' car.pk %}">Удалить автомобиль</a>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2024 Автомобили</p>
+    </footer>
+</body>
+</html>
